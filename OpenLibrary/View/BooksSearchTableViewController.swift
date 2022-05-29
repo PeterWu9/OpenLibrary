@@ -61,12 +61,12 @@ class BooksSearchTableViewController: UITableViewController {
     func search(term: String, parameter: SearchParameter) {
         if !term.isEmpty { // Avoid searching on the network with emtpy strings
             let query: [String: String] = [parameter.rawValue: term]
-            booksController.searchLibrary(with: query) { [weak tableView] (searchSuccessful) in
-                if  searchSuccessful {
-                    DispatchQueue.main.async { [weak tableView] in
-                        // Switches to main queue to update UI with network search results
-                        tableView?.reloadData()
-                    }
+            Task {
+                do {
+                    try await booksController.searchLibrary(withQuery: query)
+                    tableView.reloadData()
+                } catch {
+                    print(error)
                 }
             }
         } else { // Clear search result when term is empty
@@ -120,18 +120,16 @@ class BooksSearchTableViewController: UITableViewController {
         if let authors = book.author {
             cell.authorLabel.text = authors[0].name
         }
-//        if let coverID = book.coverID {
-//            booksController.fetchCoverImage(coverID: coverID, imageSize: .medium) { (image) in
-//                if let coverImage = image {
-//                    DispatchQueue.main.async {
-//                        // Switches to main queue to update image
-//                        imageView?.image = coverImage
-//                        // Resize imageview to aspect fill
-//                        imageView?.contentMode = .scaleAspectFill
-//                    }
-//                }
-//            }
-//        }
+        if let coverID = book.coverID {
+            booksController.fetchCoverImage(coverID: coverID, imageSize: .medium) { (image) in
+                if let coverImage = image {
+                    DispatchQueue.main.async {
+                        // Switches to main queue to update image
+                        imageView?.image = coverImage
+                    }
+                }
+            }
+        }
         
     }
     

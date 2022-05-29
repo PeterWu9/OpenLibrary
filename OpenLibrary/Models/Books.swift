@@ -43,6 +43,9 @@ struct Author: Codable {
     var name: String
 }
 
+typealias Books = [Book]
+
+
 struct Book: Codable {
     
     var author: [Author]?

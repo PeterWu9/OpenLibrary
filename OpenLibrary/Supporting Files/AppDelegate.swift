@@ -23,11 +23,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // set the root view controller’s container property to the persistent container
         if let rootVC = window?.rootViewController as? UITabBarController {
             if let searchRootNavigationController = rootVC.viewControllers?[0] as? UINavigationController,
-            let booksSearchTableViewController = searchRootNavigationController.topViewController as? BooksSearchTableViewController {
-            booksSearchTableViewController.container = persistentContainer
+               let booksSearchTableViewController = searchRootNavigationController.topViewController as? BooksSearchTableViewController {
+                booksSearchTableViewController.container = persistentContainer
             }
             if let wishListRootNavigationController = rootVC.viewControllers?[1] as? UINavigationController,
-            let wishListTableViewController = wishListRootNavigationController.topViewController as?
+               let wishListTableViewController = wishListRootNavigationController.topViewController as?
                 WishlistTableViewController {
                 wishListTableViewController.container = persistentContainer
             }

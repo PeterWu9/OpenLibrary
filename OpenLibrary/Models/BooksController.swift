@@ -31,66 +31,26 @@ class BooksController {
     }
     
     
-    /// Searches Open Library API with query dictionary.  Search results is passed
-    /// back in completion handler.
-    ///
-    /// - Parameters:
-    ///   - query: In the form of [String: String] dictionary
-    ///   - completion: The argument of the closure is the optional array of Book
-    ///     as a result of the search
-    public func searchLibrary(with query: [String: String], searchSuccessful:@escaping(Bool) -> Void) {
+    var bookService = BookService()
+    
+    lazy var defaultQuery = [
+        SearchKeys.hasFullText: "true",
+        SearchKeys.page: String(page)
+    ]
+
+    func searchLibrary(withQuery query: [String: String]) async throws {
         compareCurrentQuery(from: query)
-        let baseURL = URL(string: "https://openlibrary.org/search.json?")!
-        
-        let defaultQuery = [
-            SearchKeys.hasFullText: "true",
-            SearchKeys.page: String(page)
-        ]
         
         let newQuery = query.merging(defaultQuery) { (current, _) -> String in
             current
         }
-        
-        
-        
-        // Construct URL
-        let url = baseURL.withQueries(matching: newQuery)!
-        
-        let task = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
-            if let httpResponse = response as? HTTPURLResponse, let weakSelf = self {
-                switch httpResponse.statusCode {
-                case 200..<300:
-                    if let data = data {
-                        let decoder = JSONDecoder()
-                        do {
-                            let results = try decoder.decode(BookSearchResults.self, from: data)
-                            if weakSelf.page > 1 {
-                                weakSelf.books.append(contentsOf: results.books)
-                            } else {
-                                weakSelf.books = results.books
-                            }
-                            searchSuccessful(true)
-                        } catch let error {
-                            print("Unable decode data to SearchResults")
-                            print(error)
-                            searchSuccessful(false)
-                        }
-                    }
-                default:
-                    print("Received HTTP response status code other than successful (2xx)")
-                    searchSuccessful(false)
-                }
-            } else {
-                print("No response from server")
-                searchSuccessful(false)
-            }
-            
+        let newBooks = try await bookService.search(with: newQuery)
+        if page > 1 {
+            books.append(contentsOf: newBooks)
+        } else {
+            books = newBooks
         }
-        
-        task.resume()
     }
-    
-    
     
     /// Retrieve book cover image from openlibrary.org using internal coverID.  CoverID and
     /// imageSize are string parameters appended to Open Library's base URL to form the
@@ -160,11 +120,20 @@ class BooksController {
     public func reachedEndOfData() {
         
         page += 1
-        searchLibrary(with: currentQuery) { [weak self](successful) in
-            if successful {
-                self?.delegate?.dataReloaded()
+        Task {
+            do {
+                try await searchLibrary(withQuery: currentQuery)
+                delegate?.dataReloaded()
+            }
+            if let _ = try? await searchLibrary(withQuery: currentQuery) {
+                delegate?.dataReloaded()
             }
         }
+//        searchLibrary(with: currentQuery) { [weak self](successful) in
+//            if successful {
+//                self?.delegate?.dataReloaded()
+//            }
+//        }
     }
     
     

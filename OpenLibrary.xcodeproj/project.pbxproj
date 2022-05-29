@@ -21,6 +21,9 @@
 		F972984622DABA4D00CBB770 /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */; };
 		F972984E22DB831B00CBB770 /* WishlistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */; };
 		F972985322DBD97400CBB770 /* WishlistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */; };
+		F9FA1C832842E93100B7A43E /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C822842E93100B7A43E /* NetworkingManager.swift */; };
+		F9FA1C852842E98200B7A43E /* OpenLibraryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C842842E98200B7A43E /* OpenLibraryError.swift */; };
+		F9FA1C872842EA4900B7A43E /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C862842EA4900B7A43E /* BookService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +43,9 @@
 		F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
 		F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewController.swift; sourceTree = "<group>"; };
 		F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistDetailViewController.swift; sourceTree = "<group>"; };
+		F9FA1C822842E93100B7A43E /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
+		F9FA1C842842E98200B7A43E /* OpenLibraryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryError.swift; sourceTree = "<group>"; };
+		F9FA1C862842EA4900B7A43E /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,26 +78,15 @@
 		F95D6FC622D6DC54006C6929 /* OpenLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				F95D6FCB22D6DC54006C6929 /* Main.storyboard */,
+				F9FA1C802842E90400B7A43E /* API */,
+				F9FA1C812842E91100B7A43E /* View */,
 				F972985122DB837B00CBB770 /* Supporting Files */,
-				F972984F22DB833400CBB770 /* Controllers */,
 				F972985022DB835F00CBB770 /* Models */,
 				F95D6FCE22D6DC56006C6929 /* Assets.xcassets */,
 				F95D6FD022D6DC56006C6929 /* LaunchScreen.storyboard */,
 				F95D6FD322D6DC56006C6929 /* Info.plist */,
 			);
 			path = OpenLibrary;
-			sourceTree = "<group>";
-		};
-		F972984F22DB833400CBB770 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				F95D6FDF22D6E7D2006C6929 /* BooksSearchTableViewController.swift */,
-				F972981322D81D6400CBB770 /* BookDetailViewController.swift */,
-				F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */,
-				F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		F972985022DB835F00CBB770 /* Models */ = {
@@ -111,8 +106,30 @@
 				F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */,
 				F95D6FC722D6DC54006C6929 /* AppDelegate.swift */,
 				F972984122DA681D00CBB770 /* PersistentContainer.swift */,
+				F9FA1C842842E98200B7A43E /* OpenLibraryError.swift */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F9FA1C802842E90400B7A43E /* API */ = {
+			isa = PBXGroup;
+			children = (
+				F9FA1C822842E93100B7A43E /* NetworkingManager.swift */,
+				F9FA1C862842EA4900B7A43E /* BookService.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		F9FA1C812842E91100B7A43E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F95D6FDF22D6E7D2006C6929 /* BooksSearchTableViewController.swift */,
+				F972981322D81D6400CBB770 /* BookDetailViewController.swift */,
+				F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */,
+				F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */,
+				F95D6FCB22D6DC54006C6929 /* Main.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,7 +159,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "Peter Wu";
 				TargetAttributes = {
 					F95D6FC322D6DC54006C6929 = {
@@ -186,9 +203,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9FA1C832842E93100B7A43E /* NetworkingManager.swift in Sources */,
 				F972984622DABA4D00CBB770 /* BooksTableViewCell.swift in Sources */,
+				F9FA1C872842EA4900B7A43E /* BookService.swift in Sources */,
 				F972984222DA681D00CBB770 /* PersistentContainer.swift in Sources */,
 				F972984E22DB831B00CBB770 /* WishlistTableViewController.swift in Sources */,
+				F9FA1C852842E98200B7A43E /* OpenLibraryError.swift in Sources */,
 				F95D6FE022D6E7D2006C6929 /* BooksSearchTableViewController.swift in Sources */,
 				F95D6FDA22D6E118006C6929 /* Books.swift in Sources */,
 				F972981422D81D6400CBB770 /* BookDetailViewController.swift in Sources */,
@@ -248,13 +268,14 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -273,13 +294,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -309,13 +331,14 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -328,12 +351,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -345,7 +369,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GG58NB3258;
 				INFOPLIST_FILE = OpenLibrary/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -353,7 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Zero.OpenLibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -364,7 +388,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GG58NB3258;
 				INFOPLIST_FILE = OpenLibrary/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -372,7 +396,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Zero.OpenLibrary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

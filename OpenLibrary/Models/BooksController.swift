@@ -36,7 +36,7 @@ class BooksController {
         SearchKeys.hasFullText: "true",
         SearchKeys.page: String(page)
     ]
-
+    
     func searchLibrary(withQuery query: [String: String]) async throws {
         compareCurrentQuery(from: query)
         
@@ -51,22 +51,11 @@ class BooksController {
         }
     }
     
-    /// Retrieve book cover image from openlibrary.org using internal coverID.  CoverID and
-    /// imageSize are string parameters appended to Open Library's base URL to form the
-    /// URL that points to the book cover image.
-    ///
-    /// - Parameters:
-    ///   - coverID: an internal ID (Int) used by Open Library to identify cover images
-    ///   - imageSize: of type BookCoverImageSize enum with cases for small, medium, and large
-    ///                cover size
-    ///   - completion: The argument of the closure is the optional image fetched from
-    ///                 book cover URL
-    public func fetchCoverImage(coverID: Int, imageSize: BookCoverImageSize) async throws -> UIImage {
+    func fetchCoverImage(coverID: Int, imageSize: BookCoverImageSize) async throws -> UIImage {
         return try await bookService.fetchCoverImage(coverID: coverID, imageSize: imageSize)
     }
     
-    public func fetchDetails(fromID lendingID: String, completion:@escaping(BookDetail?) -> Void) {
-        let baseURL = URL(string: "https://openlibrary.org/api/books?")!
+    func fetchDetails(fromID lendingID: String) async throws -> BookDetail {
         let fullID = "OLID:" + lendingID
         let query = [
             SearchKeys.bookKey: fullID,
@@ -74,37 +63,12 @@ class BooksController {
             SearchKeys.responseFormat: "details"
         ]
         
-        let url = baseURL.withQueries(matching: query)!
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let httpResponse = response as? HTTPURLResponse {
-                switch httpResponse.statusCode {
-                case 200..<300:
-                    if let data = data,
-                        let rawJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                        let bookDetailResultJSON = rawJSON[fullID] as? [String: Any],
-                        let bookDetailJSON = bookDetailResultJSON["details"] as? [String: Any]{
-                        let bookDetail = BookDetail(from: bookDetailJSON)
-                        completion(bookDetail)
-                    } else {
-                        print("Unable to instantiate BookDetail from data")
-                    }
-                default:
-                    print("Received HTTP response status code other than successful (2xx)")
-                    completion(nil)
-                }
-            } else {
-                print("No response from server")
-                completion(nil)
-            }
-        }
-        
-        task.resume()
+        return try await bookService.fetchDetails(fromID: lendingID, withQuery: query)
     }
     
-    public func reachedEndOfData() {
-        
+    func reachedEndOfData() {
         page += 1
+        
         Task {
             do {
                 try await searchLibrary(withQuery: currentQuery)
@@ -114,11 +78,6 @@ class BooksController {
                 delegate?.dataReloaded()
             }
         }
-//        searchLibrary(with: currentQuery) { [weak self](successful) in
-//            if successful {
-//                self?.delegate?.dataReloaded()
-//            }
-//        }
     }
     
     
@@ -133,11 +92,11 @@ class BooksController {
             currentQuery = newQuery
         }
     }
-
+    
     
 }
 
-public enum BookCoverImageSize: String {
+enum BookCoverImageSize: String {
     case small = "S"
     case medium = "M"
     case large = "L"

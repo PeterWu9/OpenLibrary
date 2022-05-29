@@ -53,15 +53,17 @@ class WishlistDetailViewController: UIViewController {
         }
         
         if let bookID = bookModel.lendingEditionID {
-            booksController.fetchDetails(fromID: bookID) { [weak self] (bookDetail) in
-                guard let weakSelf = self, let detail = bookDetail else { return }
-                DispatchQueue.main.async {
-                    weakSelf.descriptionLabel.text = detail.description
-                    weakSelf.numberOfPagesLabel.text = detail.numberOfPages != nil ? String(detail.numberOfPages!) +
+            Task {
+                do {
+                    let detail = try await booksController.fetchDetails(fromID: bookID)
+                    descriptionLabel.text = detail.description
+                    numberOfPagesLabel.text = detail.numberOfPages != nil ? String(detail.numberOfPages!) +
                         " pages" : ""
                     if let subjects = detail.subjects {
-                        weakSelf.subjectsLabel.text = "SUBJECTS:\n" + subjects
+                        subjectsLabel.text = "SUBJECTS:\n" + subjects
                     }
+                } catch {
+                    print(error)
                 }
             }
         }

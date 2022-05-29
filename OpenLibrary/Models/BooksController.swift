@@ -74,12 +74,8 @@ class BooksController {
                 try await searchLibrary(withQuery: currentQuery)
                 delegate?.dataReloaded()
             }
-            if let _ = try? await searchLibrary(withQuery: currentQuery) {
-                delegate?.dataReloaded()
-            }
         }
     }
-    
     
     /// Compares query with currentQuery.  Resets pagination and updates currentQuery if different from new query
     ///
@@ -92,7 +88,6 @@ class BooksController {
             currentQuery = newQuery
         }
     }
-    
     
 }
 

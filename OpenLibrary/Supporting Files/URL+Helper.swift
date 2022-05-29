@@ -12,9 +12,7 @@ extension URL {
     func withQueries(matching query: [String: String]) -> URL? {
         // Make URL into URLComponents so that each component is separated
         var components = URLComponents(url: self, resolvingAgainstBaseURL: true)
-        components?.queryItems = query.map { (key, value) -> URLQueryItem in
-            return URLQueryItem(name: key, value: value)
-        }
+        components?.queryItems = query.map(URLQueryItem.init(name:value:))
         return components?.url
     }
 }

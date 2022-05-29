@@ -47,12 +47,8 @@ class WishlistDetailViewController: UIViewController {
         }
         
         if bookModel.coverID > 0 {
-            booksController.fetchCoverImage(coverID: Int(bookModel.coverID), imageSize: .large) { [weak self] (fetchedImage) in
-                if let coverImage = fetchedImage, let weakSelf = self {
-                    DispatchQueue.main.async {
-                        weakSelf.coverImageView.image = coverImage
-                    }
-                }
+            Task {
+                coverImageView.image = try await booksController.fetchCoverImage(coverID: Int(bookModel.coverID), imageSize: .large)
             }
         }
         

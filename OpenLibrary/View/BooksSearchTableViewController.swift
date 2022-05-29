@@ -121,13 +121,8 @@ class BooksSearchTableViewController: UITableViewController {
             cell.authorLabel.text = authors[0].name
         }
         if let coverID = book.coverID {
-            booksController.fetchCoverImage(coverID: coverID, imageSize: .medium) { (image) in
-                if let coverImage = image {
-                    DispatchQueue.main.async {
-                        // Switches to main queue to update image
-                        imageView?.image = coverImage
-                    }
-                }
+            Task {
+                imageView?.image = try await booksController.fetchCoverImage(coverID: coverID, imageSize: .medium)
             }
         }
         

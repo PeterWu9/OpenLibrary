@@ -8,15 +8,20 @@
 
 import Foundation
 
-enum OpenLibraryError<T>: Error, LocalizedError {
+enum APIError: Error, LocalizedError {
     var errorDescription: String? {
         switch self {
         case .invalidNetworkResponse(let response):
             return "Invalid network response \(response)"
-        case .dataDecodingFailure(let type):
-            return "Unable to decode data for type \(type)"
+        case .dataDecodingFailure(let data):
+            return "Unable to decode data \(data)"
+        case .imageDecodingFailure(let data):
+            return "Unable to create image from data: \(data)"
         }
     }
     case invalidNetworkResponse(response: URLResponse)
-    case dataDecodingFailure(T.Type)
+    case dataDecodingFailure(Data)
+    case imageDecodingFailure(Data)
 }
+
+

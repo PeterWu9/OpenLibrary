@@ -89,26 +89,17 @@ class WishlistTableViewController: UITableViewController {
         cell.titleLabel.text = ""
         cell.authorLabel?.text = ""
         let imageView = cell.cellImageView
-        imageView?.image = UIImage(named: "gray")
-
 
         cell.titleLabel.text = book.title
+        
         if let author = book.author {
             cell.authorLabel.text = author
         }
         let coverID = Int(book.coverID)
-        booksController.fetchCoverImage(coverID: coverID, imageSize: .medium) { (image) in
-            if let coverImage = image {
-                DispatchQueue.main.async {
-                    // Switches to main queue to update image
-                    imageView?.image = coverImage
-                    // Resize imageview to aspect fill
-                    imageView?.contentMode = .scaleAspectFill
-                }
-            }
-        }
         
-
+        Task {
+            imageView?.image = try await booksController.fetchCoverImage(coverID: coverID, imageSize: .medium)
+        }
     }
     
     // MARK: - Add Wishlist

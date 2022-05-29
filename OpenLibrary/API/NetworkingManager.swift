@@ -10,13 +10,7 @@ import Foundation
 
 class NetworkingManager {
     
-    let baseURL: URL
-    
     let decoder = JSONDecoder()
-    
-    init(baseURL: URL) {
-        self.baseURL = baseURL
-    }
     
     func get<T>(url: URL) async throws -> T where T: Decodable {
         var request = URLRequest(url: url)
@@ -24,13 +18,24 @@ class NetworkingManager {
         
         let (data, response) = try await URLSession.shared.data(for: request)
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
-            throw OpenLibraryError<T>.invalidNetworkResponse(response: response)
+            throw APIError.invalidNetworkResponse(response: response)
         }
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            throw OpenLibraryError<T>.dataDecodingFailure(T.self)
+            throw APIError.dataDecodingFailure(data)
         }
+    }
+    
+    func fetch(url: URL) async throws -> Data {
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let (data, response) = try await URLSession.shared.data(for: request)
+        guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
+            throw APIError.invalidNetworkResponse(response: response)
+        }
+        return data
     }
     
 }

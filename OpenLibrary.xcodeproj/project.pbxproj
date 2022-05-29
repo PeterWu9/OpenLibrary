@@ -22,7 +22,7 @@
 		F972984E22DB831B00CBB770 /* WishlistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */; };
 		F972985322DBD97400CBB770 /* WishlistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */; };
 		F9FA1C832842E93100B7A43E /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C822842E93100B7A43E /* NetworkingManager.swift */; };
-		F9FA1C852842E98200B7A43E /* OpenLibraryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C842842E98200B7A43E /* OpenLibraryError.swift */; };
+		F9FA1C852842E98200B7A43E /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C842842E98200B7A43E /* APIError.swift */; };
 		F9FA1C872842EA4900B7A43E /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C862842EA4900B7A43E /* BookService.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +44,7 @@
 		F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewController.swift; sourceTree = "<group>"; };
 		F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistDetailViewController.swift; sourceTree = "<group>"; };
 		F9FA1C822842E93100B7A43E /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
-		F9FA1C842842E98200B7A43E /* OpenLibraryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryError.swift; sourceTree = "<group>"; };
+		F9FA1C842842E98200B7A43E /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		F9FA1C862842EA4900B7A43E /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,7 +106,6 @@
 				F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */,
 				F95D6FC722D6DC54006C6929 /* AppDelegate.swift */,
 				F972984122DA681D00CBB770 /* PersistentContainer.swift */,
-				F9FA1C842842E98200B7A43E /* OpenLibraryError.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -114,6 +113,7 @@
 		F9FA1C802842E90400B7A43E /* API */ = {
 			isa = PBXGroup;
 			children = (
+				F9FA1C842842E98200B7A43E /* APIError.swift */,
 				F9FA1C822842E93100B7A43E /* NetworkingManager.swift */,
 				F9FA1C862842EA4900B7A43E /* BookService.swift */,
 			);
@@ -208,7 +208,7 @@
 				F9FA1C872842EA4900B7A43E /* BookService.swift in Sources */,
 				F972984222DA681D00CBB770 /* PersistentContainer.swift in Sources */,
 				F972984E22DB831B00CBB770 /* WishlistTableViewController.swift in Sources */,
-				F9FA1C852842E98200B7A43E /* OpenLibraryError.swift in Sources */,
+				F9FA1C852842E98200B7A43E /* APIError.swift in Sources */,
 				F95D6FE022D6E7D2006C6929 /* BooksSearchTableViewController.swift in Sources */,
 				F95D6FDA22D6E118006C6929 /* Books.swift in Sources */,
 				F972981422D81D6400CBB770 /* BookDetailViewController.swift in Sources */,

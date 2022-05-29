@@ -62,12 +62,8 @@ class BookDetailViewController: UIViewController, UIScrollViewDelegate {
         }
         
         if let coverID = book.coverID {
-            booksController.fetchCoverImage(coverID: coverID, imageSize: .large) { [weak self] (fetchedImage) in
-                if let coverImage = fetchedImage, let weakSelf = self {
-                    DispatchQueue.main.async {
-                        weakSelf.coverImageView.image = coverImage
-                    }
-                }
+            Task {
+                coverImageView.image = try? await booksController.fetchCoverImage(coverID: coverID, imageSize: .large)
             }
         }
         

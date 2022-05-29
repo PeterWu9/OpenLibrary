@@ -30,10 +30,9 @@ class BooksController {
         static let page = "page"
     }
     
+    private var bookService = BookService()
     
-    var bookService = BookService()
-    
-    lazy var defaultQuery = [
+    private lazy var defaultQuery = [
         SearchKeys.hasFullText: "true",
         SearchKeys.page: String(page)
     ]
@@ -62,22 +61,8 @@ class BooksController {
     ///                cover size
     ///   - completion: The argument of the closure is the optional image fetched from
     ///                 book cover URL
-    public func fetchCoverImage(coverID: Int, imageSize: BookCoverImageSize, completion: @escaping(UIImage?)-> Void) {
-        
-        let baseURL = URL(string: "http://covers.openlibrary.org/b/id/")!
-        
-        let url = baseURL.appendingPathComponent("\(coverID)-\(imageSize.rawValue)").appendingPathExtension("jpg")
-        
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let data = data, let image = UIImage(data: data) {
-                completion(image)
-            } else {
-                print("Unable to retrieve image data, or create image out of data")
-                completion(nil)
-            }
-        }
-        
-        task.resume()
+    public func fetchCoverImage(coverID: Int, imageSize: BookCoverImageSize) async throws -> UIImage {
+        return try await bookService.fetchCoverImage(coverID: coverID, imageSize: imageSize)
     }
     
     public func fetchDetails(fromID lendingID: String, completion:@escaping(BookDetail?) -> Void) {

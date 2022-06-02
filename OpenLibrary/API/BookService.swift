@@ -35,7 +35,7 @@ class BookService {
     ///                cover size
     ///   - completion: The argument of the closure is the optional image fetched from
     ///                 book cover URL
-    func fetchCoverImage(coverID: Int, imageSize: BookCoverImageSize) async throws -> UIImage {
+    func fetchBookCover(coverID: Int, imageSize: BookCoverImageSize) async throws -> UIImage {
                 
         let url = coverImageBaseURL.appendingPathComponent("\(coverID)-\(imageSize.rawValue)").appendingPathExtension("jpg")
         let imageData = try await networkManager.fetch(url: url)
@@ -46,7 +46,7 @@ class BookService {
         }
     }
     
-    func fetchDetails(fromID lendingID: String, withQuery query: Query) async throws -> BookDetail {
+    func fetchBookDetails(fromID lendingID: String, withQuery query: Query) async throws -> BookDetail {
         
         let fullID = "OLID:" + lendingID
         

@@ -103,7 +103,6 @@
 			isa = PBXGroup;
 			children = (
 				F95D6FDB22D6E17D006C6929 /* URL+Helper.swift */,
-				F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */,
 				F95D6FC722D6DC54006C6929 /* AppDelegate.swift */,
 				F972984122DA681D00CBB770 /* PersistentContainer.swift */,
 			);
@@ -125,6 +124,7 @@
 			children = (
 				F95D6FDF22D6E7D2006C6929 /* BooksSearchTableViewController.swift */,
 				F972981322D81D6400CBB770 /* BookDetailViewController.swift */,
+				F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */,
 				F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */,
 				F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */,
 				F95D6FCB22D6DC54006C6929 /* Main.storyboard */,

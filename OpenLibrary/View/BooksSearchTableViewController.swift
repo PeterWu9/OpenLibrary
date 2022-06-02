@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Combine
 
 class BooksSearchTableViewController: UITableViewController {
     
@@ -17,6 +18,8 @@ class BooksSearchTableViewController: UITableViewController {
     var container: PersistentContainer!
     
 
+    var cancellable: AnyCancellable?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,6 +29,25 @@ class BooksSearchTableViewController: UITableViewController {
         
         title = "Search"
         booksController.delegate = self
+        
+        cancellable = NotificationCenter.default.publisher(
+            for: UITextField.textDidChangeNotification,
+            object: searchBar.searchTextField
+        )
+        .map { notification in
+            return (notification.object as! UITextField).text ?? ""
+        }
+        .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+        .sink { [weak self] term in
+            
+            guard let searchParameter = self?.searchParameter else {
+                return
+            }
+            
+            self?.search(term: term, parameter: searchParameter)
+        }
+
+            
         
     }
     
@@ -109,8 +131,6 @@ class BooksSearchTableViewController: UITableViewController {
         cell.titleLabel.text = ""
         cell.authorLabel?.text = ""
         let imageView = cell.cellImageView
-        imageView?.image = UIImage(named: "gray")
-        
         
         let index = indexPath.row
         guard index < self.booksController.books.count else { return }
@@ -165,7 +185,7 @@ class BooksSearchTableViewController: UITableViewController {
 
 }
 
-// MARK: - EXTENSION -
+// MARK: - EXTENSION
 
 extension BooksSearchTableViewController: UISearchBarDelegate {
     
@@ -177,19 +197,6 @@ extension BooksSearchTableViewController: UISearchBarDelegate {
         // Hides keyboard
         searchBar.resignFirstResponder()
     }
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        if let term = searchBar.text {
-            search(term: term, parameter: searchParameter)
-        }
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if let term = searchBar.text {
-            search(term: term, parameter: searchParameter)
-        }
-    }
-    
 }
 
 extension BooksSearchTableViewController: BooksControllerDelegate {

@@ -52,7 +52,7 @@ class BooksController {
     }
     
     func fetchCoverImage(coverID: Int, imageSize: BookCoverImageSize) async throws -> UIImage {
-        return try await bookService.fetchCoverImage(coverID: coverID, imageSize: imageSize)
+        return try await bookService.fetchBookCover(coverID: coverID, imageSize: imageSize)
     }
     
     func fetchDetails(fromID lendingID: String) async throws -> BookDetail {
@@ -63,7 +63,7 @@ class BooksController {
             SearchKeys.responseFormat: "details"
         ]
         
-        return try await bookService.fetchDetails(fromID: lendingID, withQuery: query)
+        return try await bookService.fetchBookDetails(fromID: lendingID, withQuery: query)
     }
     
     func reachedEndOfData() {

@@ -15,8 +15,9 @@ class NetworkingManager {
     func get<T>(url: URL) async throws -> T where T: Decodable {
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        
+//        print("Start Request: \(Date())")
         let (data, response) = try await URLSession.shared.data(for: request)
+//        print("Finished Request: \(Date())")
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
             throw APIError.invalidNetworkResponse(response: response)
         }

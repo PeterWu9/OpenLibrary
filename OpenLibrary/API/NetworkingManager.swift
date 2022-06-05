@@ -18,6 +18,11 @@ class NetworkingManager {
 //        print("Start Request: \(Date())")
         let (data, response) = try await URLSession.shared.data(for: request)
 //        print("Finished Request: \(Date())")
+        
+        // Throw error to forego data decoding if task has been cancelled
+        guard !Task.isCancelled else {
+            throw APIError.networkTaskCancelled
+        }
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
             throw APIError.invalidNetworkResponse(response: response)
         }
@@ -33,6 +38,12 @@ class NetworkingManager {
         request.httpMethod = "GET"
         
         let (data, response) = try await URLSession.shared.data(for: request)
+        
+        // Throw error to forego data decoding if task has been cancelled
+        guard !Task.isCancelled else {
+            throw APIError.networkTaskCancelled
+        }
+        
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
             throw APIError.invalidNetworkResponse(response: response)
         }

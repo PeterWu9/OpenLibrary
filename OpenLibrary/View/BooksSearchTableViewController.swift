@@ -20,6 +20,8 @@ class BooksSearchTableViewController: UITableViewController {
 
     var cancellable: AnyCancellable?
     
+    var searchTask: Task<Void, Error>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -45,10 +47,7 @@ class BooksSearchTableViewController: UITableViewController {
             }
             
             self?.search(term: term, parameter: searchParameter)
-        }
-
-            
-        
+        }        
     }
     
     // MARK: - Segment Action
@@ -71,9 +70,6 @@ class BooksSearchTableViewController: UITableViewController {
         }
     }
     
-    
-    
-    
     // MARK: - Search
     
     enum SearchParameter: String {
@@ -81,14 +77,19 @@ class BooksSearchTableViewController: UITableViewController {
     }
     
     func search(term: String, parameter: SearchParameter) {
+        // Cancel any current search task
+        searchTask?.cancel()
+        searchTask = nil
+        
         if !term.isEmpty { // Avoid searching on the network with emtpy strings
             let query: [String: String] = [parameter.rawValue: term]
-            Task {
+            // Update current search task
+            searchTask = Task {
                 do {
                     try await booksController.searchLibrary(withQuery: query)
                     tableView.reloadData()
                 } catch {
-                    print(error)
+                    print(error.localizedDescription)
                 }
             }
         } else { // Clear search result when term is empty

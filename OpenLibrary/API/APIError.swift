@@ -17,11 +17,15 @@ enum APIError: Error, LocalizedError {
             return "Unable to decode data \(data)"
         case .imageDecodingFailure(let data):
             return "Unable to create image from data: \(data)"
+        case .networkTaskCancelled:
+            return "Network task cancelled"
         }
     }
+    
     case invalidNetworkResponse(response: URLResponse)
     case dataDecodingFailure(Data)
     case imageDecodingFailure(Data)
+    case networkTaskCancelled
 }
 
 

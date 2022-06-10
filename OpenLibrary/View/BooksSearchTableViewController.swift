@@ -17,6 +17,11 @@ class BooksSearchTableViewController: UITableViewController {
     var searchParameter = SearchParameter.title
     var container: PersistentContainer!
     
+    var indicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .large)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     var cancellable: AnyCancellable?
     
@@ -31,6 +36,11 @@ class BooksSearchTableViewController: UITableViewController {
         
         title = "Search"
         booksController.delegate = self
+        
+        view.addSubview(indicatorView)
+        indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        indicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
+        indicatorView.hidesWhenStopped = true
         
         cancellable = NotificationCenter.default.publisher(
             for: UITextField.textDidChangeNotification,
@@ -81,7 +91,11 @@ class BooksSearchTableViewController: UITableViewController {
         searchTask?.cancel()
         searchTask = nil
         
+        
         if !term.isEmpty { // Avoid searching on the network with emtpy strings
+            // Show indicator
+            indicatorView.startAnimating()
+
             let query: [String: String] = [parameter.rawValue: term]
             // Update current search task
             searchTask = Task {
@@ -91,6 +105,7 @@ class BooksSearchTableViewController: UITableViewController {
                 } catch {
                     print(error.localizedDescription)
                 }
+                indicatorView.stopAnimating()
             }
         } else { // Clear search result when term is empty
             booksController.books.removeAll()

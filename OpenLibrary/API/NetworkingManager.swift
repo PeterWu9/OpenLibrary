@@ -14,7 +14,7 @@ class NetworkingManager {
     
     func get<T>(url: URL) async throws -> T where T: Decodable {
         
-        // Tested in create(_:for) and response(_, for)
+        // ✅ Tested in create(_:for) and response(_, for)
         let (data, response) = try await response(.get, for: url)
         
         // Throw error to forego data decoding if task has been cancelled
@@ -22,6 +22,7 @@ class NetworkingManager {
             throw APIError.networkTaskCancelled
         }
         
+        // ✅ Tested
         try checkResponseAndStatusCode(response)
         
         // Decode data by meta type
@@ -46,6 +47,7 @@ class NetworkingManager {
     
     func fetch(url: URL) async throws -> Data {
         
+        // ✅ Tested
         let (data, response) = try await response(.get, for: url)
         
         // Throw error to forego data decoding if task has been cancelled
@@ -53,13 +55,16 @@ class NetworkingManager {
             throw APIError.networkTaskCancelled
         }
         
+        // ✅ Tested
         try checkResponseAndStatusCode(response)
         
         return data
     }
     
     func checkResponseAndStatusCode(_ response: URLResponse) throws {
-        guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
+        guard
+            let statusCode = (response as? HTTPURLResponse)?.statusCode,
+            (200..<300).contains(statusCode) else {
             throw APIError.invalidNetworkResponse(response: response)
         }
     }

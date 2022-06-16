@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum APIError: Error, LocalizedError {
+enum APIError: Error, LocalizedError, Equatable {
     var errorDescription: String? {
         switch self {
         case .invalidNetworkResponse(let response):

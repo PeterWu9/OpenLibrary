@@ -36,11 +36,18 @@ class OpenLibraryTests: XCTestCase {
         XCTAssertEqual(httpResponse.statusCode, 200)
     }
     
-    func testResponseAndStatusCode() async throws {
+    func testResponseAndStatusCodeSuccess() async throws {
         let (_, response) = try await networkManager.response(.get, for: testUrl)
         XCTAssertNoThrow(try networkManager.checkResponseAndStatusCode(response))
     }
     
+    func testResponseAndStatusCodeFailure() async throws {
+        let invalidUrl = URL(string: "https://openlibrary.org/invalid")
+        let (_, response) = try await networkManager.response(.get, for: invalidUrl!)
+        XCTAssertThrowsError(try networkManager.checkResponseAndStatusCode(response)) { error in
+            XCTAssertEqual((error as! APIError), APIError.invalidNetworkResponse(response: response))
+        }
+    }
     
     
 //    func testExample() throws {

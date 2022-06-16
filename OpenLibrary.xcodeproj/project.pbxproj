@@ -21,10 +21,21 @@
 		F972984622DABA4D00CBB770 /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */; };
 		F972984E22DB831B00CBB770 /* WishlistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */; };
 		F972985322DBD97400CBB770 /* WishlistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */; };
+		F9975FBA285AD46D00CDE4A9 /* OpenLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9975FB9285AD46D00CDE4A9 /* OpenLibraryTests.swift */; };
 		F9FA1C832842E93100B7A43E /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C822842E93100B7A43E /* NetworkingManager.swift */; };
 		F9FA1C852842E98200B7A43E /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C842842E98200B7A43E /* APIError.swift */; };
 		F9FA1C872842EA4900B7A43E /* BookService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C862842EA4900B7A43E /* BookService.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F9975FBB285AD46D00CDE4A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F95D6FBC22D6DC54006C6929 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F95D6FC322D6DC54006C6929;
+			remoteInfo = OpenLibrary;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		F95D6FC422D6DC54006C6929 /* OpenLibrary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenLibrary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,6 +54,8 @@
 		F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
 		F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewController.swift; sourceTree = "<group>"; };
 		F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistDetailViewController.swift; sourceTree = "<group>"; };
+		F9975FB7285AD46D00CDE4A9 /* OpenLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9975FB9285AD46D00CDE4A9 /* OpenLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryTests.swift; sourceTree = "<group>"; };
 		F9FA1C822842E93100B7A43E /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
 		F9FA1C842842E98200B7A43E /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		F9FA1C862842EA4900B7A43E /* BookService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookService.swift; sourceTree = "<group>"; };
@@ -56,6 +69,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F9975FB4285AD46D00CDE4A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -63,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				F95D6FC622D6DC54006C6929 /* OpenLibrary */,
+				F9975FB8285AD46D00CDE4A9 /* OpenLibraryTests */,
 				F95D6FC522D6DC54006C6929 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				F95D6FC422D6DC54006C6929 /* OpenLibrary.app */,
+				F9975FB7285AD46D00CDE4A9 /* OpenLibraryTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +129,14 @@
 				F972984122DA681D00CBB770 /* PersistentContainer.swift */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F9975FB8285AD46D00CDE4A9 /* OpenLibraryTests */ = {
+			isa = PBXGroup;
+			children = (
+				F9975FB9285AD46D00CDE4A9 /* OpenLibraryTests.swift */,
+			);
+			path = OpenLibraryTests;
 			sourceTree = "<group>";
 		};
 		F9FA1C802842E90400B7A43E /* API */ = {
@@ -152,18 +182,40 @@
 			productReference = F95D6FC422D6DC54006C6929 /* OpenLibrary.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F9975FB6285AD46D00CDE4A9 /* OpenLibraryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F9975FBF285AD46D00CDE4A9 /* Build configuration list for PBXNativeTarget "OpenLibraryTests" */;
+			buildPhases = (
+				F9975FB3285AD46D00CDE4A9 /* Sources */,
+				F9975FB4285AD46D00CDE4A9 /* Frameworks */,
+				F9975FB5285AD46D00CDE4A9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F9975FBC285AD46D00CDE4A9 /* PBXTargetDependency */,
+			);
+			name = OpenLibraryTests;
+			productName = OpenLibraryTests;
+			productReference = F9975FB7285AD46D00CDE4A9 /* OpenLibraryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		F95D6FBC22D6DC54006C6929 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1020;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				ORGANIZATIONNAME = "Peter Wu";
 				TargetAttributes = {
 					F95D6FC322D6DC54006C6929 = {
 						CreatedOnToolsVersion = 10.2.1;
+					};
+					F9975FB6285AD46D00CDE4A9 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = F95D6FC322D6DC54006C6929;
 					};
 				};
 			};
@@ -181,6 +233,7 @@
 			projectRoot = "";
 			targets = (
 				F95D6FC322D6DC54006C6929 /* OpenLibrary */,
+				F9975FB6285AD46D00CDE4A9 /* OpenLibraryTests */,
 			);
 		};
 /* End PBXProject section */
@@ -193,6 +246,13 @@
 				F95D6FD222D6DC56006C6929 /* LaunchScreen.storyboard in Resources */,
 				F95D6FCF22D6DC56006C6929 /* Assets.xcassets in Resources */,
 				F95D6FCD22D6DC54006C6929 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9975FB5285AD46D00CDE4A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,7 +280,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F9975FB3285AD46D00CDE4A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9975FBA285AD46D00CDE4A9 /* OpenLibraryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F9975FBC285AD46D00CDE4A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F95D6FC322D6DC54006C6929 /* OpenLibrary */;
+			targetProxy = F9975FBB285AD46D00CDE4A9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		F95D6FCB22D6DC54006C6929 /* Main.storyboard */ = {
@@ -400,6 +476,44 @@
 			};
 			name = Release;
 		};
+		F9975FBD285AD46D00CDE4A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GG58NB3258;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.petey888.OpenLibraryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenLibrary.app/OpenLibrary";
+			};
+			name = Debug;
+		};
+		F9975FBE285AD46D00CDE4A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GG58NB3258;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.petey888.OpenLibraryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenLibrary.app/OpenLibrary";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -417,6 +531,15 @@
 			buildConfigurations = (
 				F95D6FD722D6DC56006C6929 /* Debug */,
 				F95D6FD822D6DC56006C6929 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9975FBF285AD46D00CDE4A9 /* Build configuration list for PBXNativeTarget "OpenLibraryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9975FBD285AD46D00CDE4A9 /* Debug */,
+				F9975FBE285AD46D00CDE4A9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

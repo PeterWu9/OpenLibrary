@@ -13,19 +13,19 @@ class NetworkingManager {
     let decoder = JSONDecoder()
     
     func get<T>(url: URL) async throws -> T where T: Decodable {
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-//        print("Start Request: \(Date())")
-        let (data, response) = try await URLSession.shared.data(for: request)
-//        print("Finished Request: \(Date())")
+        
+        // Tested in create(_:for) and response(_, for)
+        let (data, response) = try await response(.get, for: url)
         
         // Throw error to forego data decoding if task has been cancelled
         guard !Task.isCancelled else {
             throw APIError.networkTaskCancelled
         }
-        guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
-            throw APIError.invalidNetworkResponse(response: response)
-        }
+        
+        try checkResponseAndStatusCode(response)
+        
+        // Decode data by meta type
+        // Throw APIError.dataDecodingFailure if decode failed.
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
@@ -33,21 +33,46 @@ class NetworkingManager {
         }
     }
     
-    func fetch(url: URL) async throws -> Data {
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+    enum RequestMethod {
+        case get
         
-        let (data, response) = try await URLSession.shared.data(for: request)
+        var description: String {
+            switch self {
+            case .get:
+                return "GET"
+            }
+        }
+    }
+    
+    func fetch(url: URL) async throws -> Data {
+        
+        let (data, response) = try await response(.get, for: url)
         
         // Throw error to forego data decoding if task has been cancelled
         guard !Task.isCancelled else {
             throw APIError.networkTaskCancelled
         }
         
+        try checkResponseAndStatusCode(response)
+        
+        return data
+    }
+    
+    func checkResponseAndStatusCode(_ response: URLResponse) throws {
         guard let statusCode = (response as? HTTPURLResponse)?.statusCode, (200..<300).contains(statusCode) else {
             throw APIError.invalidNetworkResponse(response: response)
         }
-        return data
+    }
+    
+    func create(_ method: RequestMethod, for url: URL) -> URLRequest {
+        var request = URLRequest(url: url)
+        request.httpMethod = method.description
+        return request
+    }
+    
+    func response(_ method: RequestMethod, for url: URL) async throws -> (Data, URLResponse) {
+        let request = create(method, for: url)
+        return try await URLSession.shared.data(for: request)
     }
     
 }

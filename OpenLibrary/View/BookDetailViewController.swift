@@ -47,7 +47,7 @@ class BookDetailViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func updateUI(for book: Book) {
-        
+        print(#function, "book: \(book)")
         clearUI()
                 
         titleLabel.text = book.title

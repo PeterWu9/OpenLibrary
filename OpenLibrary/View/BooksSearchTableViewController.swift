@@ -91,7 +91,6 @@ class BooksSearchTableViewController: UITableViewController {
         searchTask?.cancel()
         searchTask = nil
         
-        
         if !term.isEmpty { // Avoid searching on the network with emtpy strings
             // Show indicator
             indicatorView.startAnimating()
@@ -103,7 +102,7 @@ class BooksSearchTableViewController: UITableViewController {
                     try await booksController.searchLibrary(withQuery: query)
                     tableView.reloadData()
                 } catch {
-                    print(error.localizedDescription)
+                    print("Search Task Error:", error.localizedDescription)
                 }
                 indicatorView.stopAnimating()
             }
@@ -122,46 +121,30 @@ class BooksSearchTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return booksController.books.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "bookCell", for: indexPath) as! BooksTableViewCell
 
         // Configure the cell...
-        configure(cell, forBookAt: indexPath)
+        let index = indexPath.row
+        guard index < self.booksController.books.count else { return cell }
+        
+        let book = self.booksController.books[index]
+        cell.configure(
+            with: book,
+            task: Task(operation: {
+            if let coverID = book.coverID {
+                print("Fetching cover ID: \(coverID) for \(book.title)")
+                let image = try await booksController.fetchCoverImage(coverID: coverID, imageSize: .medium)
+                if cell.book?.coverID == book.coverID {
+                    cell.cellImageView.image = image
+                }
+            }
+        }))
         
         return cell
-    }
-    // MARK: Delegate
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-    }
-    
-    // MARK: Configuration
-    func configure(_ cell: BooksTableViewCell, forBookAt indexPath: IndexPath) {
-        
-        // reset cell's label and image
-        cell.titleLabel.text = ""
-        cell.authorLabel?.text = ""
-        let imageView = cell.cellImageView
-        
-        let index = indexPath.row
-        guard index < self.booksController.books.count else { return }
-        let book = self.booksController.books[index]
-        
-        cell.titleLabel.text = book.title
-        if let authors = book.author {
-            cell.authorLabel.text = authors[0].name
-        }
-        if let coverID = book.coverID {
-            Task {
-                imageView?.image = try await booksController.fetchCoverImage(coverID: coverID, imageSize: .medium)
-            }
-        }
-        
     }
     
     // MARK: Scroll
@@ -172,18 +155,6 @@ class BooksSearchTableViewController: UITableViewController {
         }
     }
     
-    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        // Determine current position in table view
-        let currentOffset = scrollView.contentOffset.y
-        let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        // Notify book controller if reaching end of table view
-        if (maximumOffset - currentOffset) <= 20.0 {
-            booksController.reachedEndOfData()
-        }
-    }
-
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation

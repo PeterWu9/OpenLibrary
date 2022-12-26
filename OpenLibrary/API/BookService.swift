@@ -38,6 +38,7 @@ class BookService {
     func fetchBookCover(coverID: Int, imageSize: BookCoverImageSize) async throws -> UIImage {
                 
         let url = coverImageBaseURL.appendingPathComponent("\(coverID)-\(imageSize.rawValue)").appendingPathExtension("jpg")
+        print("Fetching image url:", url.absoluteString)
         let imageData = try await networkManager.fetch(url: url)
         if let image = UIImage(data: imageData) {
             return image

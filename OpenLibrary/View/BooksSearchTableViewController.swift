@@ -134,15 +134,16 @@ class BooksSearchTableViewController: UITableViewController {
         let book = self.booksController.books[index]
         cell.configure(
             with: book,
-            task: Task(operation: {
-            if let coverID = book.coverID {
-                print("Fetching cover ID: \(coverID) for \(book.title)")
-                let image = try await booksController.fetchCoverImage(coverID: coverID, imageSize: .medium)
-                if cell.book?.coverID == book.coverID {
-                    cell.cellImageView.image = image
+            task: Task {
+                if let coverID = book.coverID {
+                    print("Fetching cover ID: \(coverID) for \(book.title)")
+                    let image = try await booksController.fetchCoverImage(coverID: coverID, imageSize: .medium)
+                    if cell.book?.coverID == book.coverID {
+                        cell.cellImageView.image = image
+                    }
                 }
             }
-        }))
+        )
         
         return cell
     }

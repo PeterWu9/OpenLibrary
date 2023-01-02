@@ -27,6 +27,10 @@ class BooksSearchTableViewController: UITableViewController {
     
     var searchTask: Task<Void, Error>?
     
+    private let bookCoverImage: UIImage! = {
+       UIImage(named: "book.cover.placeholder")
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -141,6 +145,8 @@ class BooksSearchTableViewController: UITableViewController {
                     if cell.book?.coverID == book.coverID {
                         cell.cellImageView.image = image
                     }
+                } else {
+                    cell.cellImageView.image = bookCoverImage
                 }
             }
         )

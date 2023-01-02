@@ -37,7 +37,6 @@ class WishlistTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         if let sections = fetchedResultsController.sections, sections.count > 0 {
             return sections[section].numberOfObjects
         } else {
@@ -48,10 +47,7 @@ class WishlistTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "bookCell", for: indexPath) as! BooksTableViewCell
-        
-        // Configure the cell...
         configure(cell, forBookAt: indexPath)
-
         return cell
     }
     
@@ -82,8 +78,6 @@ class WishlistTableViewController: UITableViewController {
     
     // MARK: Configuration
     func configure(_ cell: BooksTableViewCell, forBookAt indexPath: IndexPath) {
-
-        
         let book = fetchedResultsController.object(at: indexPath)
         // reset cell's label and image
         cell.titleLabel.text = ""
@@ -105,6 +99,10 @@ class WishlistTableViewController: UITableViewController {
     // MARK: - Add Wishlist
     @IBAction func addWishlistButtonTapped(_ sender: Any) {
         // TODO: To implement modal search table view with quick add-button to add to wishlist
+        let vc = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "Search") as! UINavigationController
+        let bookSearchVC = vc.children.first! as! BooksSearchTableViewController
+        bookSearchVC.container = self.container
+        present(vc, animated: true)
     }
     
     

@@ -25,59 +25,6 @@
                                 <outlet property="delegate" destination="gVz-P6-Gg6" id="eNK-MG-xUO"/>
                             </connections>
                         </searchBar>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="bookCell" rowHeight="100" id="6uN-YJ-pta" customClass="BooksTableViewCell" customModule="OpenLibrary" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="414" height="100"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6uN-YJ-pta" id="63W-Sw-Msd">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="MvL-IE-Hii">
-                                            <rect key="frame" x="10" y="0.0" width="394" height="100"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZZA-Ie-yYk">
-                                                    <rect key="frame" x="0.0" y="5" width="67.5" height="90"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" secondItem="ZZA-Ie-yYk" secondAttribute="height" multiplier="3:4" id="TQw-49-cgm"/>
-                                                        <constraint firstAttribute="height" constant="90" id="kuC-8f-iK3"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="zAh-c4-7tZ">
-                                                    <rect key="frame" x="84.5" y="24" width="309.5" height="52.5"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Cg-Cf-2eY">
-                                                            <rect key="frame" x="0.0" y="0.0" width="309.5" height="26.5"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUR-iS-R0r">
-                                                            <rect key="frame" x="0.0" y="34.5" width="309.5" height="18"/>
-                                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                        </stackView>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstItem="MvL-IE-Hii" firstAttribute="leading" secondItem="63W-Sw-Msd" secondAttribute="leading" constant="10" id="FVV-gi-MpI"/>
-                                        <constraint firstAttribute="bottom" secondItem="MvL-IE-Hii" secondAttribute="bottom" id="KKD-Yg-g9X"/>
-                                        <constraint firstAttribute="trailing" secondItem="MvL-IE-Hii" secondAttribute="trailing" constant="10" id="aj4-Lo-ZxZ"/>
-                                        <constraint firstItem="MvL-IE-Hii" firstAttribute="top" secondItem="63W-Sw-Msd" secondAttribute="top" id="nEU-6K-k4a"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <outlet property="authorLabel" destination="RUR-iS-R0r" id="D46-1g-fdz"/>
-                                    <outlet property="cellImageView" destination="ZZA-Ie-yYk" id="xUA-8h-0j6"/>
-                                    <outlet property="titleLabel" destination="7Cg-Cf-2eY" id="wdK-iF-gay"/>
-                                    <segue destination="dz7-ya-uKS" kind="show" id="eyX-mM-Hla"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="gVz-P6-Gg6" id="lRN-NW-0E8"/>
                             <outlet property="delegate" destination="gVz-P6-Gg6" id="gBy-Ez-mMy"/>
@@ -108,13 +55,13 @@
         <!--Book Detail View Controller-->
         <scene sceneID="Nv2-kZ-0bS">
             <objects>
-                <viewController id="dz7-ya-uKS" customClass="BookDetailViewController" customModule="OpenLibrary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookDetailViewController" id="dz7-ya-uKS" customClass="BookDetailViewController" customModule="OpenLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zUV-gI-8Zi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M71-zX-n2g">
-                                <rect key="frame" x="20" y="92" width="374" height="721"/>
+                                <rect key="frame" x="20" y="48" width="374" height="814"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vnE-G0-r7N">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="573.5"/>
@@ -276,7 +223,7 @@
         <!--Wishlist Table View Controller-->
         <scene sceneID="NTc-4Z-vaZ">
             <objects>
-                <tableViewController id="hmA-g3-BPu" customClass="WishlistTableViewController" customModule="OpenLibrary" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="WishlistTableViewController" id="hmA-g3-BPu" customClass="WishlistTableViewController" customModule="OpenLibrary" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="qip-4E-XeD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -302,13 +249,13 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="i7h-xu-YzP">
                                                     <rect key="frame" x="84.5" y="24" width="309.5" height="52.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7DI-dR-MmJ">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7DI-dR-MmJ">
                                                             <rect key="frame" x="0.0" y="0.0" width="309.5" height="26.5"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16C-dS-7rf">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Author" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="16C-dS-7rf">
                                                             <rect key="frame" x="0.0" y="34.5" width="309.5" height="18"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                             <nil key="textColor"/>
@@ -330,7 +277,7 @@
                                     <outlet property="authorLabel" destination="16C-dS-7rf" id="ZMj-MS-iZA"/>
                                     <outlet property="cellImageView" destination="yay-A0-WfY" id="gnp-Us-iOU"/>
                                     <outlet property="titleLabel" destination="7DI-dR-MmJ" id="BS0-uz-PKH"/>
-                                    <segue destination="tOX-y9-RHP" kind="show" id="Xzs-eW-YSP"/>
+                                    <segue destination="tOX-y9-RHP" kind="show" identifier="wishListDetail" id="Xzs-eW-YSP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

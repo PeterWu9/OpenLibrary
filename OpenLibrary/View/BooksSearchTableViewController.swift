@@ -13,6 +13,7 @@ import Combine
 class BooksSearchTableViewController: UITableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
+    
     var booksController = BooksController()
     var searchParameter = SearchParameter.title
     var container: PersistentContainer!
@@ -33,6 +34,8 @@ class BooksSearchTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.register(BooksTableViewCell.self, forCellReuseIdentifier: BooksTableViewCell.reuseIdentifier)
 
         guard container != nil else {
             fatalError("This view needs a persistent container.")
@@ -116,20 +119,35 @@ class BooksSearchTableViewController: UITableViewController {
         }
     }
     
-    // MARK: - TABLEVIEW -
-    // MARK:  Data Source
-
+    // MARK: Tableview
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Pass the selected object to the new view controller.
+        
+        let bookDetailviewController = UIStoryboard(
+            name: "Main",
+            bundle: .main)
+            .instantiateViewController(identifier: "BookDetailViewController") {
+            BookDetailViewController(coder: $0)
+        }
+        bookDetailviewController.book = booksController.books[indexPath.row]
+        bookDetailviewController.container = container
+        show(bookDetailviewController, sender: self)
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return booksController.books.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "bookCell", for: indexPath) as! BooksTableViewCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: BooksTableViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! BooksTableViewCell
 
         // Configure the cell...
         let index = indexPath.row
@@ -150,7 +168,6 @@ class BooksSearchTableViewController: UITableViewController {
                 }
             }
         )
-        
         return cell
     }
     
@@ -161,28 +178,11 @@ class BooksSearchTableViewController: UITableViewController {
             searchBar.resignFirstResponder()            
         }
     }
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        guard let bookDetailviewController = segue.destination as? BookDetailViewController,
-            let selectionIndex = tableView?.indexPathForSelectedRow?.row
-            else { return }
-        
-        
-        bookDetailviewController.book = booksController.books[selectionIndex]
-        bookDetailviewController.container = container
-    }
-
 }
 
 // MARK: - EXTENSION
 
 extension BooksSearchTableViewController: UISearchBarDelegate {
-    
     // Performs search when user clicks on the search button
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let term = searchBar.text {
@@ -199,7 +199,6 @@ extension BooksSearchTableViewController: BooksControllerDelegate {
             self?.tableView.reloadData()
         }
     }
-    
 }
 
 

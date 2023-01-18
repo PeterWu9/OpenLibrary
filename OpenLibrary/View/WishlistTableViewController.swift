@@ -17,6 +17,8 @@ class WishlistTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.register(BooksTableViewCell.self, forCellReuseIdentifier: BooksTableViewCell.reuseIdentifier)
 
         self.navigationItem.rightBarButtonItem = self.editButtonItem
         
@@ -46,11 +48,17 @@ class WishlistTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "bookCell", for: indexPath) as! BooksTableViewCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: BooksTableViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! BooksTableViewCell
         configure(cell, forBookAt: indexPath)
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "wishListDetail", sender: self)
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -59,8 +67,6 @@ class WishlistTableViewController: UITableViewController {
         return true
     }
      */
-    
-
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -98,13 +104,11 @@ class WishlistTableViewController: UITableViewController {
     
     // MARK: - Add Wishlist
     @IBAction func addWishlistButtonTapped(_ sender: Any) {
-        // TODO: To implement modal search table view with quick add-button to add to wishlist
         let vc = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "Search") as! UINavigationController
         let bookSearchVC = vc.children.first! as! BooksSearchTableViewController
         bookSearchVC.container = self.container
         present(vc, animated: true)
     }
-    
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -114,14 +118,11 @@ class WishlistTableViewController: UITableViewController {
         let bookModel = fetchedResultsController.object(at: indexPath)
         wishlistDetailViewController.bookModel = bookModel
     }
-
 }
 
 // MARK: - EXTENSION -
 extension WishlistTableViewController: NSFetchedResultsControllerDelegate {
-    
     func initializeFetchedResultsController() {
-        
         let request: NSFetchRequest<BookModel> = NSFetchRequest(entityName: "BookModel")
         let sort = NSSortDescriptor(key: "title", ascending: true)
         request.sortDescriptors = [sort]

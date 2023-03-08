@@ -7,11 +7,13 @@
 //
 
 import UIKit
-import CoreData
+import Combine
 
 class BookDetailViewController: UIViewController, UIScrollViewDelegate {
     
-    var book: Book?
+    var book: Book
+    var viewModel: BooksViewModel
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var authorLabel: UILabel!
@@ -20,33 +22,32 @@ class BookDetailViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var numberOfPagesLabel: UILabel!
     @IBOutlet weak var subjectsLabel: UILabel!
-    @IBOutlet weak var wishListAddButton: UIButton!
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var heartImage: UIImageView!
     
-    var booksController: BooksController!
-    var container: PersistentContainer!
+    init?(coder: NSCoder, book: Book, viewModel: BooksViewModel) {
+        self.book = book
+        self.viewModel = viewModel
+        super.init(coder: coder)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        guard container != nil else {
-            fatalError("This view needs a persistent container.")
-        }
-        
-        booksController = BooksController()
-
-        // Do any additional setup after loading the view.
-        if let book = book {
-            updateUI(for: book)
-        }
+                
+        setupUI(for: book)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        booksController = nil
-        container = nil;
+    fileprivate func updateFavorites(for book: Book) {
+        favoriteButton.setTitle(book.isFavorite ? "Unfavorite" : "Favorite", for: .normal)
+        let imageName = book.isFavorite ? "heart.fill" : "heart"
+        heartImage.image = UIImage(systemName: imageName)
     }
     
-    func updateUI(for book: Book) {
+    private func setupUI(for book: Book) {
         print(#function, "book: \(book)")
         clearUI()
                 
@@ -60,20 +61,24 @@ class BookDetailViewController: UIViewController, UIScrollViewDelegate {
         if let publishedYear = book.publishYear {
             publishedYearLabel.text = "First published in: " + String(publishedYear)
         }
+                
+        updateFavorites(for: book)
+        
         
         if let coverID = book.coverID {
             Task {
-                coverImageView.image = try? await booksController.fetchCoverImage(coverID: coverID, imageSize: .large)
+                coverImageView.image = try? await viewModel.fetchCoverImage(coverID: coverID, imageSize: .large)
             }
         }
         
         if let bookID = book.lendingEditionID {
             Task {
                 do {
-                    let detail = try await booksController.fetchDetails(fromID: bookID)
+                    let detail = try await viewModel.fetchDetails(fromID: bookID)
                     descriptionLabel.text = detail.description
-                    numberOfPagesLabel.text = detail.numberOfPages != nil ? String(detail.numberOfPages!) +
-                        " pages" : ""
+                    if let numberOfPages = detail.numberOfPages {
+                        numberOfPagesLabel.text = "\(numberOfPages) pages"
+                    }
                     if let subjects = detail.subjects {
                         subjectsLabel.text = "SUBJECTS:\n" + subjects
                     }
@@ -81,56 +86,6 @@ class BookDetailViewController: UIViewController, UIScrollViewDelegate {
                 } catch {
                     print(error)
                 }
-            }
-        }
-        
-        // Check if the book is already saved in the favorite list
-        let request: NSFetchRequest<BookModel> = BookModel.fetchRequest()
-        print("key: \(book.key)")
-        let predicate = NSPredicate(format: "key = %@", book.key)
-        request.predicate = predicate
-        let context = container.viewContext
-        
-        if let count = try? context.count(for: request), count > 0 {
-            // disables wishlist button
-            print("book already in database")
-            wishListAddButton.isEnabled = false
-        }
-    }
-    
-    @IBAction func wishListButtonTapped(_ sender: UIButton) {
-        // Save to favorite
-        let context = container.viewContext
-        
-        guard let book = book else { return }
-        let bookModel = BookModel(context: container.viewContext)
-        bookModel.title = book.title
-        if let coverID = book.coverID { bookModel.coverID = Int32(coverID)}
-        bookModel.editionsCount = Int32(book.editionsCount)
-        bookModel.key = book.key
-        bookModel.lendingEditionID = book.lendingEditionID
-        bookModel.author = book.author?.concatedNames
-        
-        if let publishYear = book.publishYear { bookModel.publishYear = Int32(publishYear) }
-        
-        do {
-            try context.save()
-            printDatabaseStatistics()
-            
-            // disable favoriteButton
-            wishListAddButton.isEnabled = false
-            
-        } catch {
-            print("Error saving context")
-            print(error)
-        }
-    }
-    
-    private func printDatabaseStatistics() {
-        let context = container.viewContext
-        context.perform { [unowned context] in
-            if let count = try? context.count(for: BookModel.fetchRequest()) {
-                print("books count: \(count)")
             }
         }
     }
@@ -145,7 +100,6 @@ class BookDetailViewController: UIViewController, UIScrollViewDelegate {
         descriptionLabel.text = ""
         numberOfPagesLabel.text = ""
         subjectsLabel.text = ""
-        wishListAddButton.isEnabled = true
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -155,13 +109,22 @@ class BookDetailViewController: UIViewController, UIScrollViewDelegate {
         
         // Only show title when scrolling past the title label
         if (currentOffset > titleLableOffset) {
-            self.title = book!.title
+            self.title = book.title
         } else {
             self.title = nil
         }
     }
     
-
+    @IBAction func favoriteButtonTapped(_ sender: UIButton) {
+        // Note the contrast of having to update UI imperatively
+        // we're reacting to an event, "favorite button tapped"
+        // rather than observing and reacting to the change of state
+        // like a change in the book model's isfavorite status
+        book.isFavorite.toggle()
+        updateFavorites(for: book)
+        viewModel.update(book)
+    }
+    
     /*
     // MARK: - Navigation
 

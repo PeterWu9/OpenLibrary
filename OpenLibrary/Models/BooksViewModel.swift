@@ -1,5 +1,5 @@
 //
-//  BooksController.swift
+//  BooksViewModel.swift
 //  OpenLibrary
 //
 //  Created by Peter Wu on 7/10/19.
@@ -9,11 +9,12 @@
 import Foundation
 import UIKit
 
-class BooksController {
+class BooksViewModel {
     
-    var books = [Book]()
+    @Published private(set) var books = [Book]()
+    @Published private(set) var isSearching: Bool = false
+    
     var currentQuery = [String: String]()
-    var delegate: BooksControllerDelegate?
     
     private struct SearchKeys {
         static let title = "title"
@@ -31,8 +32,20 @@ class BooksController {
         SearchKeys.hasFullText: "true"
     ]
     
+    func update(_ book: Book) {
+        if let index = books.firstIndex(of: book) {
+            self.books[index] = book
+        }
+    }
+        
+    func clearBooks() {
+        books = []
+    }
+    
     func searchLibrary(withQuery query: [String: String]) async throws {
+        isSearching = true
         let newBooks = try await bookService.search(with: query)
+        isSearching = false
         books = newBooks.sorted(using: KeyPathComparator(\.title))
     }
     
@@ -56,8 +69,4 @@ enum BookCoverImageSize: String {
     case small = "S"
     case medium = "M"
     case large = "L"
-}
-
-protocol BooksControllerDelegate {
-    func dataReloaded()
 }

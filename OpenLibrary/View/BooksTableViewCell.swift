@@ -22,6 +22,17 @@ class BooksTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    let heartImageView: UIImageView! = {
+        let imageView = UIImageView(frame: .init(origin: .zero, size: .init(width: 50, height: 50)))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
+        imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .red
+        return imageView
+    }()
+    
     let titleLabel: UILabel! = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +64,7 @@ class BooksTableViewCell: UITableViewCell {
         titleAndAuthorStackView.distribution = .fill
         titleAndAuthorStackView.spacing = 8
 
-        let outsideStackView = UIStackView(arrangedSubviews: [cellImageView, titleAndAuthorStackView])
+        let outsideStackView = UIStackView(arrangedSubviews: [cellImageView, titleAndAuthorStackView, heartImageView])
         outsideStackView.translatesAutoresizingMaskIntoConstraints = false
         outsideStackView.axis = .horizontal
         outsideStackView.distribution = .fill
@@ -79,6 +90,7 @@ class BooksTableViewCell: UITableViewCell {
         titleLabel.text = ""
         authorLabel?.text = ""
         cellImageView.image = nil
+        heartImageView.image = nil
         task?.cancel()
         task = nil
     }
@@ -89,7 +101,8 @@ class BooksTableViewCell: UITableViewCell {
         if let authors = book.author {
             authorLabel.text = authors[0].name
         }
-        self.task = task        
+        heartImageView.image = book.isFavorite ? UIImage(systemName: "heart.fill") : nil
+        self.task = task
     }
     
     

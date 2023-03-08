@@ -7,16 +7,14 @@
 //
 
 import UIKit
-import CoreData
 import Combine
 
 class BooksSearchTableViewController: UITableViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    var booksController = BooksController()
+    var viewModel = BooksViewModel()
     var searchParameter = SearchParameter.title
-    var container: PersistentContainer!
     
     var indicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .large)
@@ -24,39 +22,61 @@ class BooksSearchTableViewController: UITableViewController {
         return view
     }()
 
-    var cancellable: AnyCancellable?
+    // Stores all bindings
+    var cancellables = Set<AnyCancellable>()
     
     var searchTask: Task<Void, Error>?
     
     private let bookCoverImage: UIImage! = {
        UIImage(named: "book.cover.placeholder")
     }()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(BooksTableViewCell.self, forCellReuseIdentifier: BooksTableViewCell.reuseIdentifier)
-
-        guard container != nil else {
-            fatalError("This view needs a persistent container.")
-        }
         
         title = "Search"
-        booksController.delegate = self
         
         view.addSubview(indicatorView)
         indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         indicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100).isActive = true
         indicatorView.hidesWhenStopped = true
         
-        cancellable = NotificationCenter.default.publisher(
+        // MARK: Bindings
+        
+        // Create binding between changes in view model's books data and tableview
+        viewModel
+            .$books
+            .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
+            .sink(receiveValue: { [weak self] books in
+                print("books count:", books.count)
+                // Updates table view when model changes
+                self?.tableView.reloadData()
+            })
+            .store(in: &cancellables)
+        
+        viewModel
+            .$isSearching
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isSearching in
+                if isSearching {
+                    self?.indicatorView.startAnimating()
+                } else {
+                    self?.indicatorView.stopAnimating()
+                }
+            }
+            .store(in: &cancellables)
+        
+        // Create binding between search text to loading new data on view model
+        NotificationCenter.default.publisher(
             for: UITextField.textDidChangeNotification,
             object: searchBar.searchTextField
         )
         .map { notification in
             return (notification.object as! UITextField).text ?? ""
         }
-        .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+        .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
         .sink { [weak self] term in
             
             guard let searchParameter = self?.searchParameter else {
@@ -64,7 +84,8 @@ class BooksSearchTableViewController: UITableViewController {
             }
             
             self?.search(term: term, parameter: searchParameter)
-        }        
+        }
+        .store(in: &cancellables)
     }
     
     // MARK: - Segment Action
@@ -100,22 +121,18 @@ class BooksSearchTableViewController: UITableViewController {
         
         if !term.isEmpty { // Avoid searching on the network with emtpy strings
             // Show indicator
-            indicatorView.startAnimating()
 
             let query: [String: String] = [parameter.rawValue: term]
             // Update current search task
             searchTask = Task {
                 do {
-                    try await booksController.searchLibrary(withQuery: query)
-                    tableView.reloadData()
+                    try await viewModel.searchLibrary(withQuery: query)
                 } catch {
                     print("Search Task Error:", error.localizedDescription)
                 }
-                indicatorView.stopAnimating()
             }
         } else { // Clear search result when term is empty
-            booksController.books.removeAll()
-            tableView.reloadData()
+            viewModel.clearBooks()
         }
     }
     
@@ -127,20 +144,25 @@ class BooksSearchTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Pass the selected object to the new view controller.
+        let model = self.viewModel
+        let books = model.books
+        
+        guard indexPath.row < books.count else {
+            return
+        }
         
         let bookDetailviewController = UIStoryboard(
             name: "Main",
             bundle: .main)
             .instantiateViewController(identifier: "BookDetailViewController") {
-            BookDetailViewController(coder: $0)
+                BookDetailViewController(coder: $0, book: model.books[indexPath.row], viewModel: model)
         }
-        bookDetailviewController.book = booksController.books[indexPath.row]
-        bookDetailviewController.container = container
+        bookDetailviewController.viewModel = self.viewModel
         show(bookDetailviewController, sender: self)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return booksController.books.count
+        return viewModel.books.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -151,15 +173,22 @@ class BooksSearchTableViewController: UITableViewController {
 
         // Configure the cell...
         let index = indexPath.row
-        guard index < self.booksController.books.count else { return cell }
+        guard index < self.viewModel.books.count else { return cell }
         
-        let book = self.booksController.books[index]
+        let book = self.viewModel.books[index]
+        
+        // Sets background color
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = UIColor.red
+        cell.selectedBackgroundView = bgColorView
+        
+        // Configure the rest of the cell, including fetching cover image
         cell.configure(
             with: book,
             task: Task {
                 if let coverID = book.coverID {
                     print("Fetching cover ID: \(coverID) for \(book.title)")
-                    let image = try await booksController.fetchCoverImage(coverID: coverID, imageSize: .medium)
+                    let image = try await viewModel.fetchCoverImage(coverID: coverID, imageSize: .medium)
                     if cell.book?.coverID == book.coverID {
                         cell.cellImageView.image = image
                     }
@@ -192,14 +221,5 @@ extension BooksSearchTableViewController: UISearchBarDelegate {
         searchBar.resignFirstResponder()
     }
 }
-
-extension BooksSearchTableViewController: BooksControllerDelegate {
-    func dataReloaded() {
-        DispatchQueue.main.async { [weak self] in
-            self?.tableView.reloadData()
-        }
-    }
-}
-
 
 

@@ -13,14 +13,10 @@
 		F95D6FD222D6DC56006C6929 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F95D6FD022D6DC56006C6929 /* LaunchScreen.storyboard */; };
 		F95D6FDA22D6E118006C6929 /* Books.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95D6FD922D6E118006C6929 /* Books.swift */; };
 		F95D6FDC22D6E17D006C6929 /* URL+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95D6FDB22D6E17D006C6929 /* URL+Helper.swift */; };
-		F95D6FDE22D6E1F6006C6929 /* BooksController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95D6FDD22D6E1F6006C6929 /* BooksController.swift */; };
+		F95D6FDE22D6E1F6006C6929 /* BooksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95D6FDD22D6E1F6006C6929 /* BooksViewModel.swift */; };
 		F95D6FE022D6E7D2006C6929 /* BooksSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95D6FDF22D6E7D2006C6929 /* BooksSearchTableViewController.swift */; };
 		F972981422D81D6400CBB770 /* BookDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972981322D81D6400CBB770 /* BookDetailViewController.swift */; };
-		F972983E22DA62D700CBB770 /* BookModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F972983C22DA62D700CBB770 /* BookModel.xcdatamodeld */; };
-		F972984222DA681D00CBB770 /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984122DA681D00CBB770 /* PersistentContainer.swift */; };
 		F972984622DABA4D00CBB770 /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */; };
-		F972984E22DB831B00CBB770 /* WishlistTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */; };
-		F972985322DBD97400CBB770 /* WishlistDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */; };
 		F9975FBA285AD46D00CDE4A9 /* OpenLibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9975FB9285AD46D00CDE4A9 /* OpenLibraryTests.swift */; };
 		F9FA1C832842E93100B7A43E /* NetworkingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C822842E93100B7A43E /* NetworkingManager.swift */; };
 		F9FA1C852842E98200B7A43E /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FA1C842842E98200B7A43E /* APIError.swift */; };
@@ -46,14 +42,10 @@
 		F95D6FD322D6DC56006C6929 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F95D6FD922D6E118006C6929 /* Books.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Books.swift; sourceTree = "<group>"; };
 		F95D6FDB22D6E17D006C6929 /* URL+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Helper.swift"; sourceTree = "<group>"; };
-		F95D6FDD22D6E1F6006C6929 /* BooksController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksController.swift; sourceTree = "<group>"; };
+		F95D6FDD22D6E1F6006C6929 /* BooksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksViewModel.swift; sourceTree = "<group>"; };
 		F95D6FDF22D6E7D2006C6929 /* BooksSearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksSearchTableViewController.swift; sourceTree = "<group>"; };
 		F972981322D81D6400CBB770 /* BookDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookDetailViewController.swift; sourceTree = "<group>"; };
-		F972983D22DA62D700CBB770 /* BookModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BookModel.xcdatamodel; sourceTree = "<group>"; };
-		F972984122DA681D00CBB770 /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
-		F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistTableViewController.swift; sourceTree = "<group>"; };
-		F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WishlistDetailViewController.swift; sourceTree = "<group>"; };
 		F9975FB7285AD46D00CDE4A9 /* OpenLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9975FB9285AD46D00CDE4A9 /* OpenLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLibraryTests.swift; sourceTree = "<group>"; };
 		F9FA1C822842E93100B7A43E /* NetworkingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingManager.swift; sourceTree = "<group>"; };
@@ -114,9 +106,8 @@
 		F972985022DB835F00CBB770 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F972983C22DA62D700CBB770 /* BookModel.xcdatamodeld */,
 				F95D6FD922D6E118006C6929 /* Books.swift */,
-				F95D6FDD22D6E1F6006C6929 /* BooksController.swift */,
+				F95D6FDD22D6E1F6006C6929 /* BooksViewModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -126,7 +117,6 @@
 			children = (
 				F95D6FDB22D6E17D006C6929 /* URL+Helper.swift */,
 				F95D6FC722D6DC54006C6929 /* AppDelegate.swift */,
-				F972984122DA681D00CBB770 /* PersistentContainer.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -155,8 +145,6 @@
 				F95D6FDF22D6E7D2006C6929 /* BooksSearchTableViewController.swift */,
 				F972981322D81D6400CBB770 /* BookDetailViewController.swift */,
 				F972984522DABA4D00CBB770 /* BooksTableViewCell.swift */,
-				F972984D22DB831B00CBB770 /* WishlistTableViewController.swift */,
-				F972985222DBD97400CBB770 /* WishlistDetailViewController.swift */,
 				F95D6FCB22D6DC54006C6929 /* Main.storyboard */,
 			);
 			path = View;
@@ -266,16 +254,12 @@
 				F9FA1C832842E93100B7A43E /* NetworkingManager.swift in Sources */,
 				F972984622DABA4D00CBB770 /* BooksTableViewCell.swift in Sources */,
 				F9FA1C872842EA4900B7A43E /* BookService.swift in Sources */,
-				F972984222DA681D00CBB770 /* PersistentContainer.swift in Sources */,
-				F972984E22DB831B00CBB770 /* WishlistTableViewController.swift in Sources */,
 				F9FA1C852842E98200B7A43E /* APIError.swift in Sources */,
 				F95D6FE022D6E7D2006C6929 /* BooksSearchTableViewController.swift in Sources */,
 				F95D6FDA22D6E118006C6929 /* Books.swift in Sources */,
 				F972981422D81D6400CBB770 /* BookDetailViewController.swift in Sources */,
-				F95D6FDE22D6E1F6006C6929 /* BooksController.swift in Sources */,
-				F972983E22DA62D700CBB770 /* BookModel.xcdatamodeld in Sources */,
+				F95D6FDE22D6E1F6006C6929 /* BooksViewModel.swift in Sources */,
 				F95D6FDC22D6E17D006C6929 /* URL+Helper.swift in Sources */,
-				F972985322DBD97400CBB770 /* WishlistDetailViewController.swift in Sources */,
 				F95D6FC822D6DC54006C6929 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -545,19 +529,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		F972983C22DA62D700CBB770 /* BookModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				F972983D22DA62D700CBB770 /* BookModel.xcdatamodel */,
-			);
-			currentVersion = F972983D22DA62D700CBB770 /* BookModel.xcdatamodel */;
-			path = BookModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = F95D6FBC22D6DC54006C6929 /* Project object */;
 }

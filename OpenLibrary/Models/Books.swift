@@ -43,6 +43,8 @@ struct Author: Codable {
     var name: String
 }
 
+extension Author: Equatable {}
+
 typealias Books = [Book]
 
 
@@ -55,6 +57,7 @@ struct Book: Codable {
     var editionsCount: Int
     var lendingEditionID: String?
     var key: String
+    var isFavorite: Bool = false
     
     enum CodingKeys: String, CodingKey {
         case author = "author_name"
@@ -78,6 +81,18 @@ struct Book: Codable {
         self.lendingEditionID = try? valueContainer.decode(String.self, forKey: CodingKeys.lendingEditionID)
         let keyString = try valueContainer.decode(String.self, forKey: CodingKeys.key)
         self.key = keyString.components(separatedBy: "/")[2]
+    }
+}
+
+extension Book: Equatable {
+    static func == (lhs: Book, rhs: Book) -> Bool {
+        lhs.author == rhs.author
+        && lhs.title == rhs.title
+        && lhs.coverID == rhs.coverID
+        && lhs.publishYear == rhs.publishYear
+        && lhs.editionsCount == rhs.editionsCount
+        && lhs.lendingEditionID == rhs.lendingEditionID
+        && lhs.key == rhs.key
     }
 }
 
